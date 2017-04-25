@@ -75,7 +75,7 @@ func NewApp() (app *cli.App) {
 	app = &cli.App{
 		Name:     "goofys",
 		Version:  "0.0.10",
-		Usage:    "Mount an S3 bucket locally",
+		Usage:    "Mount an S3/OSS bucket locally",
 		HideHelp: true,
 		Writer:   os.Stderr,
 		Flags: []cli.Flag{
@@ -175,6 +175,11 @@ func NewApp() (app *cli.App) {
 				Value: "",
 			},
 
+			cli.BoolFlag{
+				Name:  "oss",
+				Usage: "Using aliyun oss api.",
+			},
+
 			/////////////////////////
 			// Tuning
 			/////////////////////////
@@ -262,6 +267,9 @@ type FlagStorage struct {
 	KMSKeyID       string
 	ACL            string
 
+	// Aliyun OSS
+	OSS bool
+
 	// Tuning
 	Cheap        bool
 	StatCacheTTL time.Duration
@@ -323,6 +331,9 @@ func PopulateFlags(c *cli.Context) (flags *FlagStorage) {
 		UseKMS:         c.IsSet("sse-kms"),
 		KMSKeyID:       c.String("sse-kms"),
 		ACL:            c.String("acl"),
+
+		// aliyun OSS
+		OSS: c.Bool("oss"),
 
 		// Debugging,
 		DebugFuse:  c.Bool("debug_fuse"),

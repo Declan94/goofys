@@ -116,7 +116,7 @@ func mount(
 		awsConfig.Endpoint = &flags.Endpoint
 	}
 
-	awsConfig.S3ForcePathStyle = aws.Bool(true)
+	awsConfig.S3ForcePathStyle = aws.Bool(false)
 
 	goofys := NewGoofys(bucketName, awsConfig, flags)
 	if goofys == nil {
